@@ -15,3 +15,30 @@ wear os export  data to gate way , (HEART_RATE_BPM , DISTANCE_TOTAL, CALORIES_TO
 
 ## 5. receive
 ![img_3.png](img_3.png)
+
+
+## 2. gateway server receive data
+```java
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.time.LocalDateTime;
+public class UDPServer {
+    public static void main(String[] args) {
+        try {
+            DatagramSocket dsoc = new DatagramSocket(5578);
+            System.out.println("데이터 수신 준비 완료....");
+            while (true) {
+                byte[] date = new byte[66536];
+                DatagramPacket dp = new DatagramPacket(date, date.length);
+                dsoc.receive(dp);
+                System.out.println( LocalDateTime.now()+" 송신 IP : " + dp.getAddress());
+                String msg = new String(dp.getData(), "UTF-8");
+                System.out.println("보내 온 내용  : " + msg);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage()
+            );
+        }
+    }
+}
+```
